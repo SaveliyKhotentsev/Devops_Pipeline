@@ -7,11 +7,13 @@ pipeline{
     }
     //Собираем проект
     stage("Build"){
-      sh 'pip install -r requirements.txt'
+      echo 'Building the project'
+      sh 'make'
     }    
     //Проводим тесты проекта
     stage("Test"){
-
+      echo 'Testing the project'
+      sh 'make test'
     }
     //Загружаем проект на сервер
     stage("Deplopy"){
