@@ -7,7 +7,7 @@ pipeline{
     }
     //Собираем проект
     stage("Build"){
-          //?
+      sh 'pip install -r requirements.txt'
     }    
     //Проводим тесты проекта
     stage("Test"){
