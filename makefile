@@ -10,7 +10,6 @@ test:
 build:
 	docker build -t flask-demo .
 
-
 scan: 
 	trivy image flask-demo
 
