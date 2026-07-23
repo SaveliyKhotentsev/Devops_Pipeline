@@ -7,6 +7,11 @@ pipeline{
         checkout scm     
       }
     }
+    agent {
+        docker {
+            image 'python:3.12'
+        }
+    }
     //Собираем проект
     stage("Build"){
       steps{
