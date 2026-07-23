@@ -11,7 +11,6 @@ def hello_world():
 def version():
    return VERSION
 
-
 @app.route('/health')
 def health():
    return {'status': 'OK'}
