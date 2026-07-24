@@ -7,13 +7,6 @@ pipeline{
         checkout scm     
       }
     }
-    //Собираем проект
-    stage("Build"){
-      steps{
-        echo 'Building the project'
-        sh 'make'
-      }
-    }
     //Проверяем синтексис
     stage("SyntaxTest"){
       steps{
@@ -28,7 +21,7 @@ pipeline{
         sh 'make test'
       }
     }
-    //запускаем докер? или нет?
+    //Создаем образ
     stage("BuildDocker"){
       steps{
         echo 'Bulidng test conteiner...'
