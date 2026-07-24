@@ -7,6 +7,19 @@ pipeline{
         checkout scm     
       }
     }
+<<<<<<< HEAD
+=======
+    //Собираем проект
+    stage("Build"){
+      steps{
+        echo 'Building the project'
+        sh "python3 -m venv venv"
+        sh ". venv/bin/activate"
+        sh "pip install --upgrade pip"
+        sh "pip install -r requirements.txt"
+      }
+    }
+>>>>>>> 75b68884e94e219b8a0b28c8c8f0fcb0a1205b1f
     //Проверяем синтексис
     stage("SyntaxTest"){
       steps{
