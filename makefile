@@ -4,19 +4,19 @@ install:
 	venv/bin/python -m pip install -r requirements.txt
 
 lint:
-	flake8 .
+	venv/bin/python -m flake8 .
 
 test:
-	pytest --junitxml=reports/junit-report.xml
+	venv/bin/python -m pytest --junitxml=reports/junit-report.xml
 
 build:
-	docker build -t flask-demo .
+	venv/bin/python -m docker build -t flask-demo .
 
 scan: 
-	trivy image flask-demo
+	venv/bin/python -m trivy image flask-demo
 
 smoke:
-	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
-	sleep 5
-	curl --fail http://localhost:5000/
-	docker stop flask-test
+	venv/bin/python -m docker run -d --rm --name flask-test -p 5000:5000 flask-demo
+	venv/bin/python -m sleep 5
+	venv/bin/python -m curl --fail http://localhost:5000/
+	venv/bin/python -m docker stop flask-test
