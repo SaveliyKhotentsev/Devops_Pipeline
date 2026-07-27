@@ -10,6 +10,13 @@ pipeline{
       }
     }
     //Проверяем синтексис
+    stage("Build"){
+      steps{
+        echo 'Building...'
+        sh 'make'
+      }
+    }
+    //Проверяем синтексис
     stage("SyntaxTest"){
       steps{
         echo 'Checking syntax'

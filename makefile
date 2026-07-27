@@ -5,8 +5,7 @@ lint:
 	flake8 .
 
 test:
-	docker build -f Dockerfile.test -t flask-test .
-	docker run --rm -v $(pwd)/reports:/app/reports flask-test
+	pytest --junitxml=reports/junit-report.xml
 
 build:
 	docker build -t flask-demo .
