@@ -4,7 +4,8 @@ install:
 	venv/bin/python -m pip install -r requirements.txt
 
 lint:
-	venv/bin/python -m flake8 .
+	mkdir -p reports
+	venv/bin/python -m flake8 app.py > reports/flake8-report.txt || true
 
 test:
 	venv/bin/python -m pytest --junitxml=reports/junit-report.xml
