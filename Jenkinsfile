@@ -51,6 +51,7 @@ pipeline{
         sh 'make smoke'
       }
     }
+  }
   post {
     always {
       cleanWs()
@@ -58,7 +59,6 @@ pipeline{
   }
   //Загружаем проект на сервер
   // Извлекаем проект из Bitbucket 
-  }
 }
 
 
