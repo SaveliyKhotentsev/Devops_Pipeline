@@ -11,13 +11,13 @@ test:
 	venv/bin/python -m pytest --junitxml=reports/junit-report.xml
 
 build:
-	venv/bin/python -m docker build -t flask-demo .
+	docker build -t flask-demo .
 
 scan: 
-	venv/bin/python -m trivy image flask-demo
+	trivy image flask-demo
 
 smoke:
-	venv/bin/python -m docker run -d --rm --name flask-test -p 5000:5000 flask-demo
-	venv/bin/python -m sleep 5
-	venv/bin/python -m curl --fail http://localhost:5000/
-	venv/bin/python -m docker stop flask-test
+	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
+	sleep 5
+	curl --fail http://localhost:5000/
+	docker stop flask-test
