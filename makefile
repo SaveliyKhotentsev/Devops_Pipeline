@@ -11,6 +11,7 @@ test:
 	venv/bin/python -m pytest --junitxml=reports/junit-report.xml
 
 build:
+	id
 	docker build -t flask-demo .
 
 scan: 
