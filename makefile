@@ -3,6 +3,10 @@ install:
 	venv/bin/python -m pip install --upgrade pip
 	venv/bin/python -m pip install -r requirements.txt
 
+up:
+	pip install --upgrade pip
+	pip install -r requirements.txt
+
 lint:
 	mkdir -p reports
 	venv/bin/python -m flake8 app.py > reports/flake8-report.txt || true
