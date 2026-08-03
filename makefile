@@ -24,5 +24,7 @@ scan:
 smoke:
 	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
 	sleep 5
+	docker ps -a
+	docker logs flask-test
 	curl --fail http://localhost:5000/
 	docker stop flask-test
