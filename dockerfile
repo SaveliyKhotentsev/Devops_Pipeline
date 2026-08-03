@@ -1,6 +1,7 @@
 FROM python:3.12-slim
 WORKDIR /app
-RUN make
+RUN apt-get update && apt-get install -y make
 COPY . .
+RUN make
 EXPOSE 5000
 CMD [ "python", "app.py"]
