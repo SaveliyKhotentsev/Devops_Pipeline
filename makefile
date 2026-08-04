@@ -22,7 +22,7 @@ scan:
 	trivy image flask-demo
 
 smoke:
-	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
+	docker run -d --rm --name flask-test -p 5000:5000 --network=jenkins flask-demo
 	sleep 5
 	docker ps -a
 	docker logs flask-test
