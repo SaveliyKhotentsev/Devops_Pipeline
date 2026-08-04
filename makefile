@@ -26,6 +26,7 @@ smoke:
 	sleep 5
 	docker ps -a
 	docker logs flask-test
-	IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' flask-test)
-	curl --fail http://$IP:5000/
+	IP=$$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' flask-test); \
+	echo $$IP; \
+	curl --fail http://$$IP:5000/; \
 	docker stop flask-test
