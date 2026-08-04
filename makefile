@@ -22,9 +22,10 @@ scan:
 	trivy image flask-demo
 
 smoke:
-	docker run -d --rm --name flask-test -p 5000:5000 --network=jenkins flask-demo
+	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
 	sleep 5
 	docker ps -a
 	docker logs flask-test
-	curl --fail http://localhost:5000/
+	IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' flask-test)
+	curl --fail http://$IP:5000/
 	docker stop flask-test
