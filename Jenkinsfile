@@ -54,7 +54,9 @@ pipeline{
   }
   post {
     always {
+      junit 'reports/junit-report.xml'
       archiveArtifacts artifacts: 'reports/**', fingerprint: true
+      sh 'make stop'
       cleanWs()
     }
   }
