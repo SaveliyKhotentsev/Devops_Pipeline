@@ -1,0 +1,29 @@
+piprline{
+    agent{
+        node(label = 'agent1')
+    }
+    stages{
+        stage('Checkout') {
+            steps{
+                echo 'step Git Checkout'
+                checkout scm     
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'make'
+                sh 'make build'
+            }
+        }
+        stage('SmokeTest'){
+            steps{
+                sh 'make smoke'
+            }
+        }
+        stage("Deploy"){
+            steps{
+
+            }          
+        }
+    }
+}
