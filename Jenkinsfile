@@ -1,0 +1,70 @@
+pipeline{
+  agent {
+    node { label 'agent1' }
+  }
+  stages{
+    stage('Checkout') {
+      steps{
+        echo 'step Git Checkout'
+        checkout scm     
+      }
+    }
+    //Проверяем синтексис
+    stage("Build"){
+      steps{
+        echo 'Building...'
+        sh 'make'
+      }
+    }
+    //Проверяем синтексис
+    stage("SyntaxTest"){
+      steps{
+        echo 'Checking syntax'
+        sh 'make lint'
+      }
+    }
+    //Проводим тест функций проекта
+    stage("Pytest"){
+      steps{
+        echo 'Testing the projects function...'
+        sh 'make test'
+      }
+    }
+    //Создаем образ
+    stage("BuildDocker"){
+      steps{
+        echo 'Bulidng test conteiner...'
+        sh 'make build'
+      }
+    }
+    //Сканируем образ на уязвимости
+    stage("TrivyTest"){
+      steps{
+        echo 'Finding CVE vulnerabilities...'
+        sh 'make scan'
+      }
+    }
+    //Проводим тест докера (запустится ли он, заработает ли на нем приложение)
+    stage("SmokeTest"){
+      steps{
+        echo 'Testing the conteiner...'
+        sh 'make smoke'
+      }
+    }
+  }
+  post {
+    always {
+      junit 'reports/junit-report.xml'
+      archiveArtifacts artifacts: 'reports/**', fingerprint: true
+      sh 'make stop'
+      cleanWs()
+    }
+  }
+  //Загружаем проект на сервер
+  // Извлекаем проект из Bitbucket 
+}
+
+
+
+
+
