@@ -1,4 +1,4 @@
-pipeline{
+piprline{
     agent{
         node(label = 'agent1')
     }
