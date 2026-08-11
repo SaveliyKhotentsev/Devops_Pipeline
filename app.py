@@ -1,6 +1,6 @@
 from flask import Flask
 
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 
 app = Flask(__name__)
 
