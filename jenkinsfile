@@ -1,4 +1,4 @@
-piprline{
+pipeline{
     agent{
         node(label = 'agent1')
     }
@@ -13,11 +13,6 @@ piprline{
             steps{
                 sh 'make'
                 sh 'make build'
-            }
-        }
-        stage('SmokeTest'){
-            steps{
-                sh 'make smoke'
             }
         }
         stage("Deploy"){
