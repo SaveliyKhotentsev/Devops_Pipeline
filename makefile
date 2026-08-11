@@ -27,13 +27,13 @@ scan:
 		flask-demo
 
 smoke:
-	docker run -d --rm --name flask-test -p 5000:5000 flask-demo
+	docker run -d --rm --name flask-test --network=jenkins -p 5000:5000 flask-demo
 	sleep 5
 	docker ps -a
 	docker logs flask-test
 	IP=$$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' flask-test); \
 	echo $$IP; \
-	curl --fail http://$$IP:5000/; \
+	curl --fail http://$$IP:5000/;
 
 stop:
 	docker stop flask-test
