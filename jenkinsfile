@@ -21,8 +21,19 @@ piprline{
             }
         }
         stage("Deploy"){
-            steps{
+            steps{  
+                sh 'minikube image load flask-demo:latest'
+                sh 'minikube image ls | grep flask-demo'
 
+                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh 'kubectl apply -f k8s/service.yamll'
+
+                sh 'kubectl get deployments'
+                sh 'kubectl get service'
+
+                sh 'kubectl rollout status deployment/flask-demo --timeout=120s'
+
+                sh 'kubectl get pods'
             }          
         }
     }
