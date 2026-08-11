@@ -1,4 +1,4 @@
-piprline{
+pipeline{
     agent{
         node(label = 'agent1')
     }
@@ -20,8 +20,8 @@ piprline{
                 sh 'minikube image load flask-demo:latest'
                 sh 'minikube image ls | grep flask-demo'
 
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yamll'
+                sh 'kubectl apply -f kb8/deployment.yaml'
+                sh 'kubectl apply -f kb8/service.yaml'
 
                 sh 'kubectl get deployments'
                 sh 'kubectl get service'
