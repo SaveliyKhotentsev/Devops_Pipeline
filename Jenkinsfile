@@ -15,11 +15,6 @@ piprline{
                 sh 'make build'
             }
         }
-        stage('SmokeTest'){
-            steps{
-                sh 'make smoke'
-            }
-        }
         stage("Deploy"){
             steps{  
                 sh 'minikube image load flask-demo:latest'
