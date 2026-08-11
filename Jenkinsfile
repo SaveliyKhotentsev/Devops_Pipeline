@@ -1,70 +1,35 @@
-pipeline{
-  agent {
-    node { label 'agent1' }
-  }
-  stages{
-    stage('Checkout') {
-      steps{
-        echo 'step Git Checkout'
-        checkout scm     
-      }
+piprline{
+    agent{
+        node(label = 'agent1')
     }
-    //Проверяем синтексис
-    stage("Build"){
-      steps{
-        echo 'Building...'
-        sh 'make'
-      }
+    stages{
+        stage('Checkout') {
+            steps{
+                echo 'step Git Checkout'
+                checkout scm     
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'make'
+                sh 'make build'
+            }
+        }
+        stage("Deploy"){
+            steps{  
+                sh 'minikube image load flask-demo:latest'
+                sh 'minikube image ls | grep flask-demo'
+
+                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh 'kubectl apply -f k8s/service.yamll'
+
+                sh 'kubectl get deployments'
+                sh 'kubectl get service'
+
+                sh 'kubectl rollout status deployment/flask-demo --timeout=120s'
+
+                sh 'kubectl get pods'
+            }          
+        }
     }
-    //Проверяем синтексис
-    stage("SyntaxTest"){
-      steps{
-        echo 'Checking syntax'
-        sh 'make lint'
-      }
-    }
-    //Проводим тест функций проекта
-    stage("Pytest"){
-      steps{
-        echo 'Testing the projects function...'
-        sh 'make test'
-      }
-    }
-    //Создаем образ
-    stage("BuildDocker"){
-      steps{
-        echo 'Bulidng test conteiner...'
-        sh 'make build'
-      }
-    }
-    //Сканируем образ на уязвимости
-    stage("TrivyTest"){
-      steps{
-        echo 'Finding CVE vulnerabilities...'
-        sh 'make scan'
-      }
-    }
-    //Проводим тест докера (запустится ли он, заработает ли на нем приложение)
-    stage("SmokeTest"){
-      steps{
-        echo 'Testing the conteiner...'
-        sh 'make smoke'
-      }
-    }
-  }
-  post {
-    always {
-      junit 'reports/junit-report.xml'
-      archiveArtifacts artifacts: 'reports/**', fingerprint: true
-      sh 'make stop'
-      cleanWs()
-    }
-  }
-  //Загружаем проект на сервер
-  // Извлекаем проект из Bitbucket 
 }
-
-
-
-
-
