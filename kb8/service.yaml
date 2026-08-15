@@ -1,11 +1,12 @@
-apiVersion: apps/v1
-kind: service
+apiVersion: v1
+kind: Service
 metadata:
-  name: flsk-service
+  name: flask-service
 spec:
   selector:
-    app.kubernetes.io/name: flask-demo
+    app: flask-demo
   ports:
     - protocol: TCP
       port: 5000
-      targerPort: 5000
+      targetPort: 5000
+  type: NodePort

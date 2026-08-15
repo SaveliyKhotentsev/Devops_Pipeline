@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-Deployment 
+  name: flask-deployment
 spec:
-  repliers: 2
-  selector: 
+  replicas: 2
+  selector:
     matchLabels:
-      app: flask-demo 
+      app: flask-demo
   template:
     metadata:
       labels:
-        app: flask-demo 
-    spec: 
+        app: flask-demo
+    spec:
       containers:
-        - name: flask-demo 
-          image: flask-demo:latest 
+        - name: flask-demo
+          image: flask-demo:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 5000
-
-  
