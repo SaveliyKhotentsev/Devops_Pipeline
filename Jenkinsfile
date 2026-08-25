@@ -18,16 +18,18 @@ pipeline{
         stage("Deploy"){
             steps{  
                 sh 'docker image ls | grep flask-demo'
-
+                sh 'minikube image load flask-demo:latest'
+                
                 sh 'kubectl apply -f kb8/deployment.yaml'
                 sh 'kubectl apply -f kb8/service.yaml'
-
+                
                 sh 'kubectl get deployments'
                 sh 'kubectl get service'
 
-                sh 'kubectl rollout status deployment/flask-demo --timeout=120s'
+                sh 'kubectl get pods -o wide'
+                sh 'kubectl describe pods'
 
-                sh 'kubectl get pods'
+                sh 'kubectl rollout status deployment/flask-deployment --timeout=120s'
             }          
         }
     }
