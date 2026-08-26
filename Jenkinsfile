@@ -54,7 +54,11 @@ pipeline{
     stage("ImageUpload"){
       steps{
         ///sh 'docker login' потправить (сделайть вход с помощью kenkins creditiona;s)
-        sh 'docker push melodicr2/flask-demo:1.0'
+        sh 'docker tag flask-demo:1.0.45 melodicr2/flask-demo:1.0.45'
+        sh 'docker images'
+        sh 'docker push melodicr2/flask-demo:1.0.45'
+        
+
       }
     }
   }

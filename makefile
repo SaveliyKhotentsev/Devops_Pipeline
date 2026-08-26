@@ -17,7 +17,7 @@ test:
 
 build:
 	id
-	docker build -t flask-demo .
+	docker build -t flask-demo:1.0.45 .
 
 scan:
 	mkdir -p reports

@@ -1,6 +1,7 @@
 from flask import Flask
 
-VERSION = '1.0.45'
+from importlib.metadata import version
+__version__ = version("myapp")
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ def hello_world():
 
 @app.route('/version')
 def version():
-   return VERSION
+   return __version__
 
 
 @app.route('/health')
