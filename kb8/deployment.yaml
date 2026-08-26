@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: flask-demo
-          image: melodicr2/flask-demo:1.0
-          imagePullPolicy: Never
+          image: melidicr2/flask-demo:1.0.45
           ports:
             - containerPort: 5000
