@@ -51,6 +51,12 @@ pipeline{
         sh 'make smoke'
       }
     }
+    stage("ImageUpload"){
+      steps{
+        ///sh 'docker login' потправить (сделайть вход с помощью kenkins creditiona;s)
+        sh 'docker push melodicr2/flask-demo:1.0'
+      }
+    }
   }
   post {
     always {
