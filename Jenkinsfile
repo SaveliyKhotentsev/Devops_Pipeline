@@ -17,7 +17,8 @@ pipeline{
         }
         stage("Deploy"){
             steps{  
-                sh 'docker image ls | grep flask-demo'
+                //sh 'docker image ls | grep flask-demo'
+                //sh 'minikube image load flask-demo:latest'
                 
                 sh 'kubectl apply -f kb8/deployment.yaml'
                 sh 'kubectl apply -f kb8/service.yaml'
