@@ -32,5 +32,26 @@ pipeline{
                 sh 'kubectl rollout status deployment/flask-deployment --timeout=120s'
             }          
         }
+        stage("SmokeTest"){
+            steps{
+                sh '''
+                    echo "Checking Kubernetes pods..."
+                    kubectl get pods
+
+                    echo "Checking services..."
+                    kubectl get svc
+
+                    NODE_IP=$(kubectl get node minikube \
+                        -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
+                    echo "Minikube IP: $NODE_IP"
+
+                    NODE_PORT=$(kubectl get service flask-service \
+                        -o jsonpath='{.spec.ports[0].nodePort}')
+                    echo "NodePort: $NODE_PORT"
+
+                    curl --fail http://$NODE_IP:$NODE_PORT/health
+                '''
+            }
+        }
     }
 }
