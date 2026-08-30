@@ -30,7 +30,8 @@ build:
 
 doc-com:
 	id
-	docker-compose up --build
+	docker compose build
+	docker compose up 
 
 scan:
 	mkdir -p reports
@@ -61,4 +62,4 @@ stop:
 	docker stop flask-test
 
 stop_compose:
-	docker compose down -v --remove-orphans
+	docker compose down -v 
