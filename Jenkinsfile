@@ -41,6 +41,7 @@ pipeline{
       steps{
         echo 'Testing the projects function...'
         sh 'make integration_test'
+        sh 'make stop_compose'
       }
     }
     //Сканируем образ на уязвимости
