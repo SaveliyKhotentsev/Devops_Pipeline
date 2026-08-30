@@ -30,8 +30,7 @@ build:
 
 doc-com:
 	id
-	docker compose build
-	docker compose up 
+	docker-compose up --build
 
 scan:
 	mkdir -p reports
