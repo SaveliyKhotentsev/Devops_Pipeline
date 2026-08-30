@@ -55,7 +55,7 @@ pipeline{
     stage("SmokeTest"){
       steps{
         echo 'Testing the conteiner...'
-        sh 'make smoke2'
+        sh 'make smoke'
       }
     }
     stage("ImageUpload"){

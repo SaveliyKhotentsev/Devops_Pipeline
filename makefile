@@ -33,7 +33,6 @@ doc-com:
 	docker compose build
 	pwd
 	ls -la
-	file init.sql
 	docker compose up 
 
 scan:
