@@ -21,15 +21,47 @@ def app():
 def client(app):
     return app.test_client()
 
-def test_index(app, client):
-    response = client.get('/')
+
+@pytest.mark.integration
+def test_post():
+    response = client.post(
+        "/users",
+        json={
+            "id": "3",
+            "name": "Bob",
+            "email": "Bob@email"
+        }
+    )
     assert response.status_code == 200
 
-def test_version(app, client):
-    response = client.get('/version')
-    assert response.status_code == 200
 
-def test_health(app, client):
-    response = client.get('/health')
+@pytest.mark.integration
+def test_false_post():
+    response = client.post(
+        "/users",
+        json={
+            "abra": "kadabra",
+            "abra": "kadabra",
+            "abra": "kadabra",
+            "abra": "kadabra",
+            "abra": "kadabra"
+        }
+    )
+    assert response.status_code == 400
+
+    
+@pytest.mark.integration
+def test_get():
+    response = client.get("/users/3")
     assert response.status_code == 200
-    assert response.json['status'] == 'OK'
+    assert response.name == "BOB"
+    assert response.email == "Bob@email"
+
+
+@pytest.mark.integration
+def test_false_get():
+    response = client.get("/users/228")
+    assert response.status_code == 40
+
+
+

@@ -1,0 +1,67 @@
+version: "3"
+services:
+  flask-demo:
+    build: .
+    command: python app.py
+
+    ports:
+      - 5000:5000
+
+    networks:
+      - jenkins
+
+    environment: 
+      POSTGRES_HOST: postgres 
+      POSTGRES_PORT: 5432 
+      POSTGRES_DB: testdb 
+      POSTGRES_USER: testuser 
+      POSTGRES_PASSWORD: testpassword
+
+      REDIS_HOST: redis 
+      REDIS_PORT: 6379
+
+    depends_on:
+      postgres: 
+        condition: service_healthy
+      redis: 
+        condition: service_healthy
+
+
+  redis:
+    image: redis:7
+
+    environment: 
+      - REDIS_PORT=6379
+
+    healthcheck: 
+      test: ["CMD", "redis-cli", "ping"] 
+      interval: 5s 
+      timeout: 3s 
+      retries: 5
+
+    networks:
+      - jenkins
+
+
+  postgres:
+    image: postgres:16
+
+    environment: 
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuser 
+      POSTGRES_PASSWORD: testpassword
+
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U testuser -d testdb"]
+      interval: 5s 
+      timeout: 3s 
+      retries: 5
+
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - jenkins
+
+networks:
+  jenkins:

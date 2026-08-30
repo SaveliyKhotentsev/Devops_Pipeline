@@ -1,0 +1,40 @@
+import pytest
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from app import app as flask_app
+
+#Fixture — это объект, который pytest создает перед тестом.
+#То есть для фйнкций: app эквивалентно flask_app
+#Yield — это ключевое слово в Python, которое используется для 
+# возврата из функции с сохранением состояния ее локальных
+#  переменных, и при повторном вызове такой функции выполнение
+#  продолжается с оператора yield, на котором ее работа была прервана
+@pytest.fixture
+def app():
+    return flask_app
+
+#Тестовый клиент Flask.Он позволяет 
+# делать запросы без запуска настоящего сервера.
+@pytest.fixture
+def client(app):
+    return app.test_client()
+
+@pytest.mark.unit
+def test_index(app, client):
+    response = client.get('/')
+    assert response.status_code == 200
+
+@pytest.mark.unit
+def test_version(app, client):
+    response = client.get('/version')
+    assert response.status_code == 200
+
+@pytest.mark.unit
+def test_health(app, client):
+    response = client.get('/health')
+    assert response.status_code == 200
+    assert response.json['status'] == 'OK'
+    
+

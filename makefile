@@ -15,9 +15,21 @@ test:
 	mkdir -p reports
 	venv/bin/python -m pytest --junitxml=reports/junit-report.xml
 
+unit_test:
+	mkdir -p reports
+	venv/bin/python -m pytest -m "unit" --junitxml=reports/junit-report.xml
+
+integration_test:
+	mkdir -p reports
+	venv/bin/python -m pytest -m "integration" --junitxml=reports/junit-report.xml
+
 build:
 	id
-	docker build -t flask-demo:1.0.45 .
+	docker build -t flask-demo:1.1.0 .
+
+doc-com:
+	id
+	docker compose up --build
 
 scan:
 	mkdir -p reports
@@ -35,5 +47,17 @@ smoke:
 	echo $$IP; \
 	curl --fail http://$$IP:5000/;
 
+smoke2:
+	docker compose up --build
+	sleep 5
+	docker ps -a
+	docker logs flask-test
+	IP=$$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' flask-test); \
+	echo $$IP; \
+	curl --fail http://$$IP:5000/;
+
 stop:
 	docker stop flask-test
+
+stop_compose:
+	docker compose down -v --remove-orphans

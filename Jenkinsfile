@@ -24,17 +24,23 @@ pipeline{
       }
     }
     //Проводим тест функций проекта
-    stage("Pytest"){
+    stage("UnitTests"){
       steps{
         echo 'Testing the projects function...'
-        sh 'make test'
+        sh 'make unit_test'
       }
     }
-    //Создаем образ
-    stage("BuildDocker"){
+    stage("Docker-compose"){
       steps{
-        echo 'Bulidng test conteiner...'
+        echo 'Testing the projects function...'
         sh 'make build'
+        sh 'make doc-com'
+      }
+    }
+    stage("IntegrationTests"){
+      steps{
+        echo 'Testing the projects function...'
+        sh 'make integration_test'
       }
     }
     //Сканируем образ на уязвимости
@@ -48,15 +54,19 @@ pipeline{
     stage("SmokeTest"){
       steps{
         echo 'Testing the conteiner...'
-        sh 'make smoke'
+        sh 'make smoke2'
       }
     }
     stage("ImageUpload"){
       steps{
-        ///sh 'docker login' потправить (сделайть вход с помощью kenkins creditiona;s)
-        sh 'docker tag flask-demo melidicr2/flask-demo:1.0.45'
-        sh 'docker images'
-        sh 'docker push melidicr2/flask-demo:1.0.45'
+        sh '''
+        VERSION=$(python3 -c \
+          'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+        echo "Application version: $VERSION"
+        docker tag flask-demo:latest \
+          melidicr2/flask-demo:$VERSION
+        docker push melidicr2/flask-demo:$VERSION
+        '''
       }
     }
   }
@@ -64,7 +74,7 @@ pipeline{
     always {
       junit 'reports/junit-report.xml'
       archiveArtifacts artifacts: 'reports/**', fingerprint: true
-      sh 'make stop'
+      sh 'make stop_compose'
       cleanWs()
     }
   }
